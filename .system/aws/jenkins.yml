@@ -52,7 +52,7 @@ Resources:
                     
                     # check status of jenkins
                     sudo systemctl status jenkins
-            InstanceType: t2.micro
+            InstanceType: t3.medium
             SubnetId: 
                 Fn::ImportValue: 
                     !Sub ${EnvironmentName}-PUB-SN
