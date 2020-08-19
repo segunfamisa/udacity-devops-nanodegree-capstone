@@ -12,8 +12,18 @@ build-app-run-tests:
 	# run tests
 	./gradlew test
 
-build-push-docker-image:
-	echo "stage: Build and Push Docker Image"
+build-docker-image:
+	# build docker image
+	docker build -t capstone-app .
+
+push-docker-image:
+	# TODO push docker image to registry
+	echo "pushing docker image"
+
+build-push-docker-image: build-docker-image push-docker-image
+
+run-local: lint build-app-run-tests build-docker-image
+	docker run -it -p 80:8000 --rm capstone-app
 
 deploy:
 	echo "stage: Deploy"
