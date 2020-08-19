@@ -52,6 +52,9 @@ Resources:
                     
                     # check status of jenkins
                     sudo systemctl status jenkins
+
+                    # install make
+                    sudo apt-get install make
             InstanceType: t3.medium
             SubnetId: 
                 Fn::ImportValue: 
