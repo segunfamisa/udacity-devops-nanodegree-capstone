@@ -19,7 +19,8 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         get("/") {
-            val jsonResponse = """
+            val jsonResponse =
+                """
                     {
                         "message": "Hello world. Welcome to Segun Famisa's server!"
                     }
