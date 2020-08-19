@@ -9,18 +9,9 @@ pipeline {
         }
 
         stage('Build app & Run tests') {
-            parallel {
-                stage('Run tests') {
-                    steps {
-                        sh 'echo stage: Run tests'
-                    }
-                }
-
-                stage('Build app') {
-                    steps {
-                        sh 'echo stage: Build jar'
-                    }
-                }
+            steps {
+                sh './gradlew clean build'
+                sh './gradlew test'
             }
         }
 
