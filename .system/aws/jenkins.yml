@@ -1,0 +1,101 @@
+Description: >
+    CloudFormation script to set up Jenkins server for the project.
+
+Parameters:
+    EnvironmentName:
+        Description: An environment name to be used as prefixes/suffices to resources
+        Type: String
+    SshIpAddress:
+        Description: An IP address throw which we can SSH into the Jenkins instance
+        Type: String
+    KeyName:
+        Description: Name of an existing KeyPair to enable SSH into the Jenkins instance
+        Type: String
+    ImageId:
+        Description: AMI to use for the Jenkins server
+        Type: String
+
+Resources:
+
+    JenkinsSecGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            GroupDescription: Security Group to allow http traffic for the Jenkins server
+            SecurityGroupIngress:
+            - IpProtocol: tcp
+              FromPort: 8080
+              ToPort: 8080
+              CidrIp: 0.0.0.0/0
+            - IpProtocol: tcp
+              FromPort: 22
+              ToPort: 22
+              CidrIp: !Sub ${SshIpAddress}
+            VpcId:
+                Fn::ImportValue: 
+                    !Sub "${EnvironmentName}-VPCID"
+                
+    JenkinsInstance:
+        Type: AWS::EC2::Instance
+        Properties:
+            UserData:
+                Fn::Base64: !Sub |
+                    #!/bin/bash
+                    sudo apt-get update -y
+                    sudo apt-get install default-jdk wget -y
+                    
+                    # install jenkins
+                    cd /home/ubuntu
+                    wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+                    sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+                    sudo apt-get update
+                    sudo apt-get install jenkins -y
+                    
+                    # check status of jenkins
+                    sudo systemctl status jenkins
+            InstanceType: t2.micro
+            SubnetId: 
+                Fn::ImportValue: 
+                    !Sub ${EnvironmentName}-PUB-SN
+            SecurityGroupIds:
+                - Ref: JenkinsSecGroup
+            ImageId: !Ref ImageId
+            KeyName: !Ref KeyName
+            BlockDeviceMappings:
+                - DeviceName: "/dev/sdk"
+                  Ebs:
+                    VolumeSize: 15
+            Tags:
+                - Key: Name
+                  Value: !Sub ${EnvironmentName} Jenkins Instance
+
+    JenkinsInstanceEIP:
+        Type: AWS::EC2::EIP
+        Properties: 
+            Domain: vpc
+            InstanceId: !Ref JenkinsInstance
+            Tags: 
+                - Key: Name
+                  Value: Jenkins Instance Elastic IP
+
+    JenkinsInstanceEIPAssociation:
+        Type: AWS::EC2::EIPAssociation
+        DependsOn: 
+            - JenkinsInstanceEIP
+            - JenkinsInstance
+        Properties: 
+            AllocationId: !GetAtt JenkinsInstanceEIP.AllocationId
+            InstanceId: !Ref JenkinsInstance
+
+Outputs:
+
+    JenkinsDnsName:
+        Description: A URL link to the Jenkins server
+        Value: !Join ["", ["http://", !GetAtt JenkinsInstance.PublicDnsName, ":8080"]]
+        Export:
+          Name: !Sub ${EnvironmentName}-DnsName
+
+    JenkinsIp:
+        Description: IP Address of the Jenkins server
+        Value: !GetAtt JenkinsInstance.PublicIp
+        Export:
+            Name: !Sub ${EnvironmentName}-JenkinsIp

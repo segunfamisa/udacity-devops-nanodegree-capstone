@@ -1,0 +1,18 @@
+[
+    {
+        "ParameterKey": "EnvironmentName",
+        "ParameterValue": "capstone"
+    },
+    {
+        "ParameterKey": "SshIpAddress",
+        "ParameterValue": "<your ip address>"
+    },
+    {
+        "ParameterKey": "KeyName",
+        "ParameterValue": "<your key pair>"
+    },
+    {
+        "ParameterKey": "ImageId",
+        "ParameterValue": "ami-0a634ae95e11c6f91"
+    }
+]

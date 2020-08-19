@@ -1,0 +1,169 @@
+Description: >
+    CloudFormation script to set up network infrastructure for the project.
+
+Parameters:
+    EnvironmentName:
+        Description: An environment name to be used as prefixes/suffixes to resources
+        Type: String
+
+    VpcCIDR:
+        Description: IP range (CIDR notation) for this resource
+        Type: String
+        Default: 10.0.0.0/16
+
+    PublicSubnetCIDR:
+        Description: IP range (CIDR notation) for the public subnet 1
+        Type: String
+        Default: 10.0.0.0/24
+
+    PrivateSubnet1CIDR:
+        Description: IP range (CIDR notation) for the private subnet in the first AZ
+        Type: String
+        Default: 10.0.1.0/24
+
+    PrivateSubnet2CIDR:
+        Description: IP range (CIDR notation) for the private subnet in the second AZ
+        Type: String
+        Default: 10.0.2.0/24
+    
+Resources:
+
+    VPC:
+        Type: AWS::EC2::VPC
+        Properties:
+          CidrBlock: !Ref VpcCIDR
+          EnableDnsHostnames: true
+          Tags:
+            - Key: Name
+              Value: !Ref EnvironmentName
+    
+    InternetGateway:
+        Type: AWS::EC2::InternetGateway
+        Properties:
+          Tags:
+            - Key: Name
+              Value: !Ref EnvironmentName
+            - Key: Description
+              Value: Enables the items in the VPC communicate with the internet
+
+    InternetGatewayAttachment:
+        Type: AWS::EC2::VPCGatewayAttachment
+        Properties:
+            VpcId: !Ref VPC
+            InternetGatewayId: !Ref InternetGateway
+
+    # Public Subnet
+    PublicSubnet:
+        Type: AWS::EC2::Subnet
+        Properties:
+            VpcId: !Ref VPC
+            AvailabilityZone: !Select [ 0, !GetAZs '' ]
+            CidrBlock: !Ref PublicSubnetCIDR
+            MapPublicIpOnLaunch: true
+            Tags:
+                - Key: Name
+                  Value: !Sub ${EnvironmentName} Public Subnet
+                - Key: NetworkType
+                  Value: Public
+
+    # Private Subnets 
+    PrivateSubnet1:
+        Type: AWS::EC2::Subnet
+        Properties:
+            VpcId: !Ref VPC
+            AvailabilityZone: !Select [ 1, !GetAZs '' ]
+            CidrBlock: !Ref PrivateSubnet1CIDR
+            MapPublicIpOnLaunch: false
+            Tags:
+                - Key: Name
+                  Value: !Sub ${EnvironmentName} Private Subnet 1
+                - Key: NetworkType
+                  Value: Private
+    
+    PrivateSubnet2:
+        Type: AWS::EC2::Subnet
+        Properties:
+            VpcId: !Ref VPC
+            AvailabilityZone: !Select [ 2, !GetAZs '' ]
+            CidrBlock: !Ref PrivateSubnet2CIDR
+            MapPublicIpOnLaunch: false
+            Tags:
+                - Key: Name
+                  Value: !Sub ${EnvironmentName} Private Subnet 2
+                - Key: NetworkType
+                  Value: Private
+
+    PublicRouteTable:
+        Type: AWS::EC2::RouteTable
+        Properties:
+            VpcId: !Ref VPC
+            Tags:
+                - Key: Name
+                  Value: !Sub ${EnvironmentName} Public Route Table
+
+    DefaultPublicRoute:
+        Type: AWS::EC2::Route
+        DependsOn: InternetGatewayAttachment
+        Properties:
+            DestinationCidrBlock: 0.0.0.0/0
+            GatewayId: !Ref InternetGateway
+            RouteTableId: !Ref PublicRouteTable
+
+    PublicSubnetRouteTableAssociation:
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties:
+            RouteTableId: !Ref PublicRouteTable
+            SubnetId: !Ref PublicSubnet
+
+    PrivateSubnet1RouteTableAssociation:
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties:
+            RouteTableId: !Ref PublicRouteTable
+            SubnetId: !Ref PrivateSubnet1
+
+    PrivateRouteTable2:
+        Type: AWS::EC2::RouteTable
+        Properties:
+            VpcId: !Ref VPC
+            Tags:
+                - Key: Name
+                  Value: !Sub ${EnvironmentName} Private Route Table for AZ 2
+
+    PrivateSubnet2RouteTableAssociation:
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties:
+            RouteTableId: !Ref PublicRouteTable
+            SubnetId: !Ref PrivateSubnet2
+
+Outputs:
+
+    VPC:
+        Description: A reference to the created VPC
+        Value: !Ref VPC
+        Export:
+            Name: !Sub ${EnvironmentName}-VPCID
+
+    AllSubnets:
+        Description: A list of all subnets (private and public)
+        Value: !Join [",", [!Ref PublicSubnet, !Ref PrivateSubnet1, !Ref PrivateSubnet2]]
+        Export:
+            Name: !Sub ${EnvironmentName}-ALL-NETS
+            
+    PublicSubnet:
+        Description: Public Subnet
+        Value: !Ref PublicSubnet
+        Export:
+            Name: !Sub ${EnvironmentName}-PUB-SN
+    
+    PrivateSubnet1:
+        Description: Private Subnet for AZ 1
+        Value: !Ref PrivateSubnet1
+        Export:
+            Name: !Sub ${EnvironmentName}-PRI1-SN
+    
+    PrivateSubnet2:
+        Description: Private Subnet for AZ 2
+        Value: !Ref PrivateSubnet2
+        Export:
+            Name: !Sub ${EnvironmentName}-PRI2-SN
+            
