@@ -3,27 +3,25 @@ pipeline {
     stages {
         stage('Lint') {
             steps {
-                sh './gradlew ktlintCheck'
-                sh '''docker run --rm -i hadolint/hadolint < Dockerfile'''
+                sh 'make lint'
             }
         }
 
         stage('Build app & Run tests') {
             steps {
-                sh './gradlew clean build'
-                sh './gradlew test'
+                sh 'make build-app-run-tests'
             }
         }
 
         stage('Build & Push Docker Image') {
             steps {
-                sh 'echo stage: Build and Push Docker Image'
+                sh 'make build-push-docker-image'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'echo stage: Deploy'
+            	sh 'make deploy'
             }
         }
     }
