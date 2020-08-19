@@ -2,6 +2,9 @@ package com.segunfamisa
 
 import io.ktor.application.Application
 import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.features.CallLogging
+import io.ktor.features.DefaultHeaders
 import io.ktor.http.ContentType
 import io.ktor.response.respondText
 import io.ktor.routing.get
@@ -11,6 +14,9 @@ import io.ktor.server.netty.EngineMain
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module() {
+    install(DefaultHeaders)
+    install(CallLogging)
+
     routing {
         get("/") {
             val jsonResponse = """
