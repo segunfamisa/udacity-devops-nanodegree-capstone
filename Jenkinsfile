@@ -4,7 +4,7 @@ pipeline {
         stage('Lint') {
             steps {
                 sh './gradlew ktlintCheck'
-                // sh 'hadolint Dockerfile'
+                sh '''docker run --rm -i hadolint/hadolint < Dockerfile'''
             }
         }
 
