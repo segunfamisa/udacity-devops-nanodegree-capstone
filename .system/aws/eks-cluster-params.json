@@ -1,0 +1,30 @@
+[
+  {
+    "ParameterKey": "EnvironmentName",
+    "ParameterValue": "capstone"
+  },
+  {
+    "ParameterKey": "EksIamRoleName",
+    "ParameterValue": "EksClusterIamRole"
+  },
+  {
+    "ParameterKey": "ClusterName",
+    "ParameterValue": "capstone-EksCluster"
+  },
+  {
+    "ParameterKey": "NodeGroupName",
+    "ParameterValue": "WorkerNodeGroup"
+  },
+  {
+    "ParameterKey": "NodeImageId",
+    "ParameterValue": "ami-05bc8cd159ecc4bcb"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "capstone-key-pair"
+  },
+  {
+    "ParameterKey": "BootstrapArguments",
+    "ParameterValue": ""
+  }
+]
