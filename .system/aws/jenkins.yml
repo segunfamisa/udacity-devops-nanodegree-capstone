@@ -55,6 +55,12 @@ Resources:
 
                     # install make
                     sudo apt-get install make
+
+                    # install docker & start
+                    sudo apt install docker.io -y
+                    sudo systemctl start docker
+                    sudo systemctl enable docker
+                    sudo chmod 666 /var/run/docker.sock
             InstanceType: t3.medium
             SubnetId: 
                 Fn::ImportValue: 
@@ -95,7 +101,7 @@ Outputs:
         Description: A URL link to the Jenkins server
         Value: !Join ["", ["http://", !GetAtt JenkinsInstance.PublicDnsName, ":8080"]]
         Export:
-          Name: !Sub ${EnvironmentName}-DnsName
+          Name: !Sub ${EnvironmentName}-JenkinsDnsName
 
     JenkinsIp:
         Description: IP Address of the Jenkins server
