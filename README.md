@@ -12,3 +12,4 @@ The Jenkins instance is run on an Ubuntu server that is provisioned using CloudF
 * Run `./create.sh <jenkins-stack-name> jenkins.yml jenkins-params.json` to create the Jenkins server.
 * Wait a few seconds to check out the output section of the CloudFormation stack console, to determine what the DNS & IP addresses of the new Jenkins server are.
 * The first time you set up Jenkins server, you will have to SSH into the server to retrieve the default password in order to continue to manually configure Jenkins via the UI.
+* Set up [Dockerhub](https://hub.docker.com) credentials called "docker-hub-credentials" on Jenkins 

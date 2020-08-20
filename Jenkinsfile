@@ -15,7 +15,25 @@ pipeline {
 
         stage('Build & Push Docker Image') {
             steps {
-                sh 'make build-push-docker-image'
+                sh 'make build-docker-image'
+                
+                script {
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'docker-hub-credentials', 
+                            usernameVariable: 'USERNAME', 
+                            passwordVariable: 'PASSWORD'
+                            )]) {
+                        sh ''' 
+                            make push-docker-image \
+                                username=$USERNAME \
+                                password=$PASSWORD \
+                                build_number=$BUILD_NUMBER \
+                                dockerpath=segunfamisa/capstone-app
+                        
+                        '''
+                    }
+                }
             }
         }
 

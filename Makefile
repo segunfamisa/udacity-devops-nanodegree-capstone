@@ -14,13 +14,17 @@ build-app-run-tests:
 
 build-docker-image:
 	# build docker image
-	docker build -t capstone-app .
+	docker build -t segunfamisa/capstone-app .
 
 push-docker-image:
-	# TODO push docker image to registry
-	echo "pushing docker image"
+	# Login to dockerhub
+	echo $(password) | docker login -u $(username) --password-stdin
 
-build-push-docker-image: build-docker-image push-docker-image
+	# Tag docker image
+	docker tag capstone-app $(dockerpath):$(build_number)
+
+	# Pushing docker image to dockerhub
+	docker push "$(dockerpath):$(build_number)"
 
 run-local: lint build-app-run-tests build-docker-image
 	docker run -it -p 80:8000 --rm capstone-app
