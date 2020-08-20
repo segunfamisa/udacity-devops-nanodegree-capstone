@@ -58,7 +58,7 @@ Resources:
             InstanceType: t3.medium
             SubnetId: 
                 Fn::ImportValue: 
-                    !Sub ${EnvironmentName}-PUB-SN
+                    !Sub ${EnvironmentName}-PUB1-SN
             SecurityGroupIds:
                 - Ref: JenkinsSecGroup
             ImageId: !Ref ImageId
