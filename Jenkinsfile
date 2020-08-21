@@ -32,6 +32,15 @@ pipeline {
                                 dockerpath=segunfamisa/capstone-app
                         
                         '''
+
+                        sh '''
+							make push-docker-image \
+								username=$USERNAME \
+								password=$PASSWORD \
+								build_number=latest \
+								dockerpath=segunfamisa/capstone-app
+
+						'''
                     }
                 }
             }
