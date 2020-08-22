@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: capstone-app
+spec:
+    selector:
+        matchLabels:
+            app: capstone-app
+    replicas: 3
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxSurge: 1
+            maxUnavailable: 1
+
+    template:
+        metadata:
+            labels:
+                app: capstone-app
+        spec:
+            containers:
+                - name: capstone-app
+                  image: segunfamisa/capstone-app:latest
+                  ports:
+                      - containerPort: 80

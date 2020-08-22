@@ -30,4 +30,17 @@ run-local: lint build-app-run-tests build-docker-image
 	docker run -it -p 80:8000 --rm capstone-app
 
 deploy:
-	echo "stage: Deploy"
+	# update kubeconfig
+	aws eks update-kubeconfig --name capstone-EksCluster
+
+	# apply config map
+	kubectl apply -f .system/k8s/auth.yml
+
+	# apply deployment
+	kubectl apply -f .system/k8s/deployment.yml
+
+	# apply service
+	kubectl apply -f .system/k8s/service.yml
+
+	# list services
+	kubectl get service -o wide
