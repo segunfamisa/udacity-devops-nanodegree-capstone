@@ -17,7 +17,7 @@ fun Application.module(testing: Boolean = false) {
     install(DefaultHeaders)
     install(CallLogging)
 
-    routing{
+    routing {
         get("/") {
             val jsonResponse =
                 """
