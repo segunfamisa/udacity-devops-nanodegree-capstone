@@ -6,6 +6,7 @@ import io.ktor.application.install
 import io.ktor.features.CallLogging
 import io.ktor.features.DefaultHeaders
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
@@ -26,6 +27,30 @@ fun Application.module(testing: Boolean = false) {
                     }
                 """.trimIndent()
             call.respondText(jsonResponse, ContentType.Application.Json)
+        }
+
+        get("/greet") {
+            val name = call.request.queryParameters["name"]
+            if (name.isNullOrEmpty()) {
+                call.respondText(
+                    """
+                    {
+                        "error": "Um you have to put your name as a get request param with key "name"!"
+                    }
+                    """.trimIndent(),
+                    ContentType.Application.Json,
+                    HttpStatusCode.BadRequest
+                )
+            } else {
+                call.respondText(
+                    """
+                    {
+                        "message": "Hey you $name. Welcome to Segun Famisa's server!"
+                    }
+                    """.trimIndent(),
+                    ContentType.Application.Json
+                )
+            }
         }
     }
 }
