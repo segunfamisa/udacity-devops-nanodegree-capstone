@@ -8,6 +8,7 @@ import io.ktor.features.DefaultHeaders
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respondText
+import io.ktor.routing.Routing
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.netty.EngineMain
@@ -23,7 +24,7 @@ fun Application.module(testing: Boolean = false) {
             val jsonResponse =
                 """
                     {
-                        "message": "Hello world! Welcome to Segun Famisa's server :)"
+                        "message": "Hello world! Welcome to Segun Famisa's ktor server :)"
                     }
                 """.trimIndent()
             call.respondText(jsonResponse, ContentType.Application.Json)
@@ -35,7 +36,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respondText(
                     """
                     {
-                        "error": "Um you have to put your name as a get request param with key "name"!"
+                        "error": "Um you have to put your name as a get request param with key name!"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json,
@@ -45,7 +46,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respondText(
                     """
                     {
-                        "message": "Hey you $name, welcome to Segun Famisa's server!"
+                        "message": "Hey you $name, welcome to Segun Famisa's ktor server!"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json
