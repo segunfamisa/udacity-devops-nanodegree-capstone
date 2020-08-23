@@ -35,7 +35,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respondText(
                     """
                     {
-                        "error": "Umm you have to put your name as a get request param with key name :D"
+                        "error": "Umm you have to put your name as a GET request param with key name :D"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json,
