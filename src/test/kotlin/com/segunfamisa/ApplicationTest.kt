@@ -19,7 +19,7 @@ class ApplicationTest {
 
                 val welcomeMessage = Json.decodeFromString(WelcomeMessage.serializer(), response.content!!)
                 assertEquals(
-                    "Hello world. Welcome to Segun Famisa's server!",
+                    "Hello world! Welcome to Segun Famisa's server :)",
                     welcomeMessage.message
                 )
             }

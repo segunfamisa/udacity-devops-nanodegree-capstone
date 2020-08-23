@@ -27,7 +27,7 @@ push-docker-image:
 	docker push "$(dockerpath):$(build_number)"
 
 run-local: lint build-app-run-tests build-docker-image
-	docker run -it -p 80:8000 --rm capstone-app
+	docker run -it -p 80:8000 --rm segunfamisa/capstone-app
 
 deploy:
 	# update kubeconfig

@@ -23,7 +23,7 @@ fun Application.module(testing: Boolean = false) {
             val jsonResponse =
                 """
                     {
-                        "message": "Hello world. Welcome to Segun Famisa's server!"
+                        "message": "Hello world! Welcome to Segun Famisa's server :)"
                     }
                 """.trimIndent()
             call.respondText(jsonResponse, ContentType.Application.Json)
@@ -45,7 +45,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respondText(
                     """
                     {
-                        "message": "Hey you $name. Welcome to Segun Famisa's server!"
+                        "message": "Hey you $name, welcome to Segun Famisa's server!"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json
