@@ -34,14 +34,11 @@ deploy:
 	# update kubeconfig
 	aws eks update-kubeconfig --name capstone-EksCluster
 
-	# apply config map
-	kubectl apply -f .system/k8s/auth.yml
+	# apply all k8s configs
+	kubectl apply -f .system/k8s/
 
-	# apply deployment
-	kubectl apply -f .system/k8s/deployment.yml
-
-	# apply service
-	kubectl apply -f .system/k8s/service.yml
+	# set image
+	kubectl set image deployment/capstone-app capstone-app="segunfamisa/capstone-app:$(build_number)"
 
 	# listen for deployment updates
 	kubectl rollout status deployment/capstone-app

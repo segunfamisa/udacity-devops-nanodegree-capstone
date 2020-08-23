@@ -49,7 +49,7 @@ pipeline {
         stage('Deploy') {
             steps {
             	withAWS(credentials: 'aws-credentials', region: 'us-west-2') {
-                    sh 'make deploy'
+                    sh 'make deploy build_number=$BUILD_NUMBER'
                 }
             }
         }
