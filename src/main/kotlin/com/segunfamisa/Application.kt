@@ -45,7 +45,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respondText(
                     """
                     {
-                        "message": "Hey you $name :wave:, welcome to segunfamisa's ktor server!"
+                        "message": "Heyyyy you $name :wave:, welcome to segunfamisa's ktor server!"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json
