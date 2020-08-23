@@ -30,7 +30,6 @@ pipeline {
                                 password=$PASSWORD \
                                 build_number=$BUILD_NUMBER \
                                 dockerpath=segunfamisa/capstone-app
-                        
                         '''
 
                         sh '''
@@ -39,7 +38,6 @@ pipeline {
 								password=$PASSWORD \
 								build_number=latest \
 								dockerpath=segunfamisa/capstone-app
-
 						'''
                     }
                 }
