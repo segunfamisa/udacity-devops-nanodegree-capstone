@@ -177,7 +177,7 @@ Resources:
                         VolumeType: gp2
             IamInstanceProfile: !Ref NodeInstanceProfile
             ImageId: !Ref NodeImageId
-            InstanceType: "t2.micro"
+            InstanceType: "t2.small"
             KeyName: !Ref KeyName
             SecurityGroups:
                 -   Ref: NodeSecurityGroup
