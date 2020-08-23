@@ -29,7 +29,7 @@ fun Application.module(testing: Boolean = false) {
                 """
                     {
                         "message": "Hello world! Welcome to Segun Famisa's ktor server :)",
-                        "version": $env
+                        "version": "$env"
                     }
                 """.trimIndent()
             call.respondText(jsonResponse, ContentType.Application.Json)
@@ -42,7 +42,7 @@ fun Application.module(testing: Boolean = false) {
                     """
                     {
                         "error": "Umm you have to put your name as a GET request param with key name :D",
-                        "version": $env
+                        "version": "$env"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json,
@@ -53,7 +53,7 @@ fun Application.module(testing: Boolean = false) {
                     """
                     {
                         "message": "Hey you $name, welcome to segunfamisa's ktor server!",
-                        "version": $env
+                        "version": "$env"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json

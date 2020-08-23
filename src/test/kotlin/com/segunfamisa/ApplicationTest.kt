@@ -28,4 +28,4 @@ class ApplicationTest {
 }
 
 @Serializable
-data class WelcomeMessage(val message: String)
+data class WelcomeMessage(val message: String, val version: String)
