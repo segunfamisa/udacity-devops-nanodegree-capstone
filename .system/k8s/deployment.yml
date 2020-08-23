@@ -20,6 +20,6 @@ spec:
         spec:
             containers:
                 - name: capstone-app
-                  image: segunfamisa/capstone-app
+                  image: segunfamisa/capstone-app:latest
                   ports:
                       - containerPort: 80
