@@ -30,17 +30,17 @@ pipeline {
 								password=$PASSWORD
 						'''
 
-                        sh ''' 
-                            make push-docker-image \
-                                build_number=$BUILD_NUMBER \
-                                dockerpath=segunfamisa/capstone-app
-                        '''
-
                         sh '''
 							make push-docker-image \
 								build_number=latest \
 								dockerpath=segunfamisa/capstone-app
 						'''
+
+                        sh ''' 
+                            make push-docker-image \
+                                build_number=$BUILD_NUMBER \
+                                dockerpath=segunfamisa/capstone-app
+                        '''
                     }
                 }
             }
