@@ -35,7 +35,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respondText(
                     """
                     {
-                        "error": "Um you have to put your name as a get request param with key name!"
+                        "error": "Umm you have to put your name as a get request param with key name :D"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json,
@@ -45,7 +45,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respondText(
                     """
                     {
-                        "message": "Hey you $name, welcome to Segun Famisa's ktor server!"
+                        "message": "Hey you $name, welcome to segunfamisa's ktor server!"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json
