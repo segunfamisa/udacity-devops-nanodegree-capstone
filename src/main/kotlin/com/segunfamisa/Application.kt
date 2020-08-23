@@ -18,18 +18,12 @@ fun Application.module(testing: Boolean = false) {
     install(DefaultHeaders)
     install(CallLogging)
 
-    val env = if (System.getenv("BUILD_NUMBER").isNullOrEmpty()) {
-        "local"
-    } else {
-        System.getenv("BUILD_NUMBER")
-    }
     routing {
         get("/") {
             val jsonResponse =
                 """
                     {
-                        "message": "Hello world! Welcome to Segun Famisa's ktor server :)",
-                        "version": "$env"
+                        "message": "Hello world! Welcome to Segun Famisa's ktor server :)"
                     }
                 """.trimIndent()
             call.respondText(jsonResponse, ContentType.Application.Json)
@@ -41,8 +35,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respondText(
                     """
                     {
-                        "error": "Umm you have to put your name as a GET request param with key name :D",
-                        "version": "$env"
+                        "error": "Umm you have to put your name as a GET request param with key name :D"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json,
@@ -52,8 +45,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respondText(
                     """
                     {
-                        "message": "Hey you $name, welcome to segunfamisa's ktor server!",
-                        "version": "$env"
+                        "message": "Hey you $name :wave:, welcome to segunfamisa's ktor server!"
                     }
                     """.trimIndent(),
                     ContentType.Application.Json

@@ -43,5 +43,8 @@ deploy:
 	# apply service
 	kubectl apply -f .system/k8s/service.yml
 
+	# listen for deployment updates
+	kubectl rollout status deployment/capstone-app
+
 	# list services
 	kubectl get service -o wide
