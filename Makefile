@@ -21,7 +21,7 @@ push-docker-image:
 	echo $(password) | docker login -u $(username) --password-stdin
 
 	# Tag docker image
-	docker tag capstone-app $(dockerpath):$(build_number)
+	docker tag $(dockerpath) $(dockerpath):$(build_number)
 
 	# Pushing docker image to dockerhub
 	docker push "$(dockerpath):$(build_number)"
