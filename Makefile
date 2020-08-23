@@ -16,10 +16,11 @@ build-docker-image:
 	# build docker image
 	docker build -t segunfamisa/capstone-app .
 
-push-docker-image:
+login-to-docker:
 	# Login to dockerhub
 	echo $(password) | docker login -u $(username) --password-stdin
 
+push-docker-image:
 	# Tag docker image
 	docker tag $(dockerpath) $(dockerpath):$(build_number)
 
