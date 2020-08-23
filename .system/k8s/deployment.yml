@@ -21,5 +21,6 @@ spec:
             containers:
                 - name: capstone-app
                   image: segunfamisa/capstone-app:latest
+                  imagePullPolicy: "Always"
                   ports:
                       - containerPort: 80
